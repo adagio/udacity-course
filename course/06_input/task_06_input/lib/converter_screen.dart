@@ -47,7 +47,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
   List <DropdownMenuItem> _unitMenuItems;
   bool _showValidationError = false;
 
-  // TODO: Determine whether you need to override anything, such as initState()
+  // Determine whether you need to override anything, such as initState()
 
   @override void initState() {
     super.initState();
@@ -55,7 +55,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
     _setDefaults();
   }
 
-  // TODO: Add other helper functions. We've given you one, _format()
+  // Add other helper functions. We've given you one, _format()
 
   void _setDefaults() {
     setState(() {
@@ -74,6 +74,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
         child: Container(
           child: Text(
             unit.name,
+            softWrap: true,
             // // //
           )
         )
@@ -104,10 +105,30 @@ class _ConverterScreenState extends State<ConverterScreen> {
 
   Widget _createDropdown( String currentValue, ValueChanged<dynamic> onChanged) {
     return Container(
-      child: DropdownButton(
-        value: currentValue,
-        items: _unitMenuItems,
-        onChanged: onChanged)
+      margin: EdgeInsets.only(top: 16.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey[400],
+          width: 1.0,
+        )
+      ),
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Colors.grey[50],
+        ),
+        child: DropdownButtonHideUnderline(
+          child: ButtonTheme(
+            alignedDropdown: true,
+            child: DropdownButton(
+              value: currentValue,
+              items: _unitMenuItems,
+              onChanged: onChanged,
+              style: Theme.of(context).textTheme.title
+            ),
+          ),
+        ),
+      )
     );
   }
 
@@ -167,16 +188,23 @@ class _ConverterScreenState extends State<ConverterScreen> {
   @override
   Widget build(BuildContext context) {
 
-    // TODO: Create the 'input' group of widgets. This is a Column that
+    // Create the 'input' group of widgets. This is a Column that
     // includes the output value, and 'from' unit [Dropdown].
 
     final input = Padding(
       padding: _padding,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           TextField(
+            style: Theme.of(context).textTheme.display1,
             decoration: InputDecoration(
+              labelStyle: Theme.of(context).textTheme.display1,
+              errorText: _showValidationError ? 'Invalid number entered' : null,
               labelText: 'Input',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
             ),
             keyboardType: TextInputType.number,
             onChanged: _updateInputValue,
@@ -186,7 +214,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
       ),
     );
 
-    // TODO: Create a compare arrows icon.
+    // Create a compare arrows icon.
 
     final arrows = RotatedBox(
       quarterTurns: 1,
@@ -196,21 +224,32 @@ class _ConverterScreenState extends State<ConverterScreen> {
       ),
     );
 
-    // TODO: Create the 'output' group of widgets. This is a Column that
+    // Create the 'output' group of widgets. This is a Column that
 
     final output = Padding(
       padding: _padding,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text(
-            _convertedValue,
+          InputDecorator(
+            child: Text(
+              _convertedValue,
+              style: Theme.of(context).textTheme.display1
+            ),
+            decoration: InputDecoration(
+              labelText: 'Output',
+              labelStyle: Theme.of(context).textTheme.display1,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(0.0),
+              ),
+            ),
           ),
           _createDropdown(_toValue.name, _updateToConversion)
         ],
       ),
     );
 
-    // TODO: Return the input, arrows, and output widgets, wrapped in
+    // Return the input, arrows, and output widgets, wrapped in
 
     return Column(
       children: <Widget>[
@@ -220,7 +259,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
       ],
     );
 
-    // TODO: Delete the below placeholder code
+    // Delete the below placeholder code
     /*
     final unitWidgets = widget.units.map((Unit unit) {
       return Container(
