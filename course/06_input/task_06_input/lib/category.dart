@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 // @required is defined in the meta.dart package
 import 'package:meta/meta.dart';
 
-import 'converter_route.dart';
+import 'converter_screen.dart';
 import 'unit.dart';
 
 // We use an underscore to indicate that these variables are private.
@@ -45,7 +45,7 @@ class Category extends StatelessWidget {
         assert(units != null),
         super(key: key);
 
-  /// Navigates to the [ConverterRoute].
+  /// Navigates to the [ConverterScreen].
   void _navigateToConverter(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute<Null>(
       builder: (BuildContext context) {
@@ -59,7 +59,7 @@ class Category extends StatelessWidget {
             centerTitle: true,
             backgroundColor: color,
           ),
-          body: ConverterRoute(
+          body: ConverterScreen(
             color: color,
             name: name,
             units: units,
